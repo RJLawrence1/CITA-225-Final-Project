@@ -41,6 +41,23 @@ class Bookstore():
     def display_inventory(self):
         for isbn, book in self.inventory.items():
             print(f"ISBN: {isbn} | Title: {book.title} | Author: {book.author} | Price: {book.price} | Quantity: {book.quantity}")
+    
+    def restock_inventory(self, isbn, quantity):
+        self.shipment.push(quantity)
+        restocked = self.shipment.pop()
+        self.inventory[isbn].quantity += restocked
+        print(f"Restocked {restocked} copies of {self.inventory[isbn].title}")
+        if isbn in self.waitlist:
+            while not self.waitlist[isbn].isEmpty():
+                customer_name, order_qty = self.waitlist[isbn].dequeue()
+                if self.inventory[isbn].quantity >= order_qty:
+                    self.inventory[isbn].quantity -= order_qty
+                    total_price = self.inventory[isbn].price * order_qty
+                    self.sales.append((customer_name, isbn, order_qty, total_price))
+                    print(f"{customer_name}'s order has been fulfilled!")
+                else:
+                    self.waitlist[isbn].enqueue((customer_name, order_qty))
+                    break
 
 def main():
     store = Bookstore()
@@ -48,8 +65,9 @@ def main():
         print("\n--- Bookstore Menu ---")
         print("1. Add a book")
         print("2. View inventory")
-        print("3. Place an order")
-        print("4. Exit")
+        print("3. Restock Inventory")
+        print("4. Place an order")
+        print("5. Exit")
         
         choice = input("Enter your choice: ")
         
@@ -63,11 +81,15 @@ def main():
         elif choice == "2":
             store.display_inventory()
         elif choice == "3":
+            isbn = input("Enter ISBN: ")
+            quantity = int(input("Enter quantity to restock: "))
+            store.restock_inventory(isbn, quantity)
+        elif choice == "4":
             customer_name = input("Enter customer name: ")
             isbn = input("Enter ISBN: ")
             quantity = int(input("Enter quantity: "))
             store.place_order(customer_name, isbn, quantity)
-        elif choice == "4":
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
