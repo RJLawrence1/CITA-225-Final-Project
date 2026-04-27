@@ -63,7 +63,10 @@ def main():
         elif choice == "2":
             store.display_inventory()
         elif choice == "3":
-            store.place_order()
+            customer_name = input("Enter customer name: ")
+            isbn = input("Enter ISBN: ")
+            quantity = int(input("Enter quantity: "))
+            store.place_order(customer_name, isbn, quantity)
         elif choice == "4":
             print("Goodbye!")
             break
