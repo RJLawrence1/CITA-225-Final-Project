@@ -38,13 +38,36 @@ class Bookstore():
         else:
             print("Book not found!")
 
+    def display_inventory(self):
+        for isbn, book in self.inventory.items():
+            print(f"ISBN: {isbn} | Title: {book.title} | Author: {book.author} | Price: {book.price} | Quantity: {book.quantity}")
+
 def main():
     store = Bookstore()
-    isbn = input("Enter ISBN: ")
-    title = input("Enter title: ")
-    author = input("Enter author: ")
-    price = float(input("Enter price: "))
-    quantity = int(input("Enter quantity: "))
-    store.add_book(isbn, title, author, price, quantity)
+    while True:
+        print("\n--- Bookstore Menu ---")
+        print("1. Add a book")
+        print("2. View inventory")
+        print("3. Place an order")
+        print("4. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == "1":
+            isbn = input("Enter ISBN: ")
+            title = input("Enter title: ")
+            author = input("Enter author: ")
+            price = float(input("Enter price: "))
+            quantity = int(input("Enter quantity: "))
+            store.add_book(isbn, title, author, price, quantity)
+        elif choice == "2":
+            store.display_inventory()
+        elif choice == "3":
+            store.place_order()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice, try again!")
 
 main()
