@@ -21,6 +21,11 @@ class Bookstore():
     def add_book(self, isbn, title, author, price, quantity):
         self.inventory[isbn] = Book(isbn, title, author, price, quantity)
         self.authors.add(author)
+
+        if author not in self.authors:
+            self.authors.add(author)
+            print("Unique author added along with book.")
+            
         print("Book added successfully!")
     
     def place_order(self, customer_name, isbn, quantity):
@@ -68,6 +73,7 @@ def main():
         print("3. Restock Inventory")
         print("4. Place an order")
         print("5. Exit")
+        print("6. Check unique Authors")
         
         choice = input("Enter your choice: ")
         
@@ -92,6 +98,8 @@ def main():
         elif choice == "5":
             print("Goodbye!")
             break
+        elif choice == "6":
+            print(store.authors)
         else:
             print("Invalid choice, try again!")
 
