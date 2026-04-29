@@ -63,6 +63,14 @@ class Bookstore():
                 else:
                     self.waitlist[isbn].enqueue((customer_name, order_qty))
                     break
+    
+    def display_sales(self):
+        if len(self.sales) == 0:
+            print("No sales yet!")
+        else:
+            for sale in self.sales:
+                customer_name, isbn, quantity, total_price = sale
+                print(f"Customer: {customer_name} | ISBN: {isbn} | Quantity: {quantity} | Total: ${total_price:.2f}")
 
 def main():
     store = Bookstore()
@@ -72,9 +80,10 @@ def main():
         print("2. View inventory")
         print("3. Restock Inventory")
         print("4. Place an order")
-        print("5. Exit")
+        print("5. View total sales")
         print("6. Check unique Authors")
-        print("7. View total sales")
+        print("7. Display waitlist")
+        print("8. Exit")
         
         choice = input("Enter your choice: ")
         
@@ -97,16 +106,18 @@ def main():
             quantity = int(input("Enter quantity: "))
             store.place_order(customer_name, isbn, quantity)
         elif choice == "5":
-            print("Goodbye!")
-            break
+            store.display_sales()
         elif choice == "6":
             if len(store.authors) == 0:
                 print("We have no authors")
             else:
                 print(*store.authors)
         elif choice == "7":
-            print(*store.sales)
+            store.display_waitlist()
+        elif choice == "8":
+            print("Goodbye!")
+            break
         else:
             print("Invalid choice, try again!")
-
+            
 main()
