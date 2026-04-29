@@ -19,7 +19,21 @@ class Bookstore():
         self.shipment = Stack()
 
     def add_book(self, isbn, title, author, price, quantity):
-        self.inventory[isbn] = Book(isbn, title, author, price, quantity)
+        #Check if this ISBN is already in use
+        if isbn in self.inventory:
+            decision = input("This ISBN is already linked to a book. Do you want to OVERWRITE?: Y/N ")
+            decision = decision.upper()
+
+            #Decide to override or not
+            if decision == "Y":
+                self.inventory[isbn] = Book(isbn, title, author, price, quantity)
+
+            else:
+                print("Exiting Adding Book Segment Now")
+                
+        #Add book if isbn is free      
+        else:
+            self.inventory[isbn] = Book(isbn, title, author, price, quantity)
 
         #Adding Authors not in the database yet
         if author not in self.authors:
@@ -63,7 +77,18 @@ class Bookstore():
                 else:
                     self.waitlist[isbn].enqueue((customer_name, order_qty))
                     break
-    
+    #Now can remove an author if they don't have a book
+    def remove_author(self):
+        #Choose name
+        author = input("Enter the name of the Author you want to remove: ")
+        #Check if in store
+        if author in self.authors:
+            self.authors.discard(author)
+            print("Author removed")
+        #Express not in system
+        else:
+            print("Author not in system")
+
     def display_sales(self):
         if len(self.sales) == 0:
             print("No sales yet!")
@@ -117,6 +142,8 @@ def main():
         elif choice == "8":
             print("Goodbye!")
             break
+        elif choice == "9":
+            store.remove_author()
         else:
             print("Invalid choice, try again!")
             
