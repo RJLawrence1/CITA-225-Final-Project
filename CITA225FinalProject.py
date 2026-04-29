@@ -22,6 +22,7 @@ class Bookstore():
         self.inventory[isbn] = Book(isbn, title, author, price, quantity)
         self.authors.add(author)
 
+        #Adding Authors not in the database yet
         if author not in self.authors:
             self.authors.add(author)
             print("Unique author added along with book.")
@@ -99,7 +100,10 @@ def main():
             print("Goodbye!")
             break
         elif choice == "6":
-            print(store.authors)
+            if len(store.authors) == 0:
+                print("We have no authors")
+            else:
+                print(*store.authors)
         else:
             print("Invalid choice, try again!")
 
