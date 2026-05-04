@@ -47,10 +47,10 @@ class Bookstore():
                 #Add new author if logical
                 if author not in self.authors:
                     self.authors.add(author)
-                    print("Unique author added along with book.")
-                print("Book added successfully!")
+                    print("Unique author added along with book")
+                print("Book added successfully")
             else:
-                print("Exiting Adding Book Segment Now.")
+                print("Exiting Adding Book Segment Now")
                 return
 
         #Add book if isbn is free      
@@ -58,8 +58,8 @@ class Bookstore():
             self.inventory[isbn] = Book(isbn, title, author, price, quantity)
             if author not in self.authors:
                 self.authors.add(author)
-                print("Unique author added along with book.")
-            print("Book added successfully!")
+                print("Unique author added along with book")
+            print("Book added successfully")
     
     def place_order(self, customer_name, isbn, quantity):
         # Processes a customer order. If in stock, fulfills immediately.
@@ -69,20 +69,20 @@ class Bookstore():
                 self.inventory[isbn].quantity -= quantity
                 total_price = self.inventory[isbn].price * quantity
                 self.sales.append((customer_name, isbn, quantity, total_price))
-                print("Order placed successfully!")
+                print("Order placed successfully")
             else:
                 if isbn not in self.waitlist:
                     self.waitlist[isbn] = Queue()
                 self.waitlist[isbn].enqueue((customer_name, quantity))
                 self.waitlist_log.add(f"{customer_name} waiting for ISBN {isbn}")
-                print("Added to waitlist!")
+                print("Added to waitlist")
         else:
-            print("Book not found!")
+            print("Book not found")
 
     def display_inventory(self):
         # Displays all books currently in the inventory dictionary.
         if len(self.inventory) == 0:
-            print("No books in inventory yet!"
+            print("No books in inventory yet"
         else:
             for isbn, book in self.inventory.items():
                 print(f"ISBN: {isbn} | Title: {book.title} | Author: {book.author} | Price: {book.price} | Quantity: {book.quantity}")
@@ -91,7 +91,7 @@ class Bookstore():
         # Restocks a book using a stack to simulate shipment boxes.
         # Automatically fulfills waitlisted customers after restocking.
         if isbn not in self.inventory:
-            print("Book not found!")
+            print("Book not found")
             return
         self.shipment.push(quantity)
         restocked = self.shipment.pop()
@@ -104,7 +104,7 @@ class Bookstore():
                     self.inventory[isbn].quantity -= order_qty
                     total_price = self.inventory[isbn].price * order_qty
                     self.sales.append((customer_name, isbn, order_qty, total_price))
-                    print(f"{customer_name}'s order has been fulfilled!")
+                    print(f"{customer_name}'s order has been fulfilled")
                 else:
                     self.waitlist[isbn].enqueue((customer_name, order_qty))
                     break
@@ -122,15 +122,15 @@ class Bookstore():
             author_still_has_books = any(book.author == old_author for book in self.inventory.values())
             if not author_still_has_books:
                 self.authors.discard(old_author)
-                print(f"{old_author} removed from authors list too!")
-            print("Book removed!")
+                print(f"{old_author} removed from authors list too")
+            print("Book removed")
         else:
-            print("Book not found!")
+            print("Book not found")
 
     def display_sales(self):
         # Displays all completed sales records including total price.
         if len(self.sales) == 0:
-            print("No sales yet!")
+            print("No sales")
         else:
             for sale in self.sales:
                 customer_name, isbn, quantity, total_price = sale
@@ -139,7 +139,7 @@ class Bookstore():
     def display_waitlist(self):
         # Shows waitlisted customers for each book using a queue.
         if len(self.waitlist) == 0:
-            print("No waitlists!")
+            print("No waitlists")
         else:
             for isbn, queue in self.waitlist.items():
                 if queue.getSize() > 0:
@@ -190,13 +190,13 @@ def main():
             store.display_waitlist()
         elif choice == "8":
             if len(store.authors) == 0:
-                print("We have no authors!")
+                print("We have no authors")
             else:
                 print(*store.authors)
         elif choice == "9":
-            print("Goodbye!")
+            print("Goodbye")
             break
         else:
-            print("Invalid choice, try again!")
+            print("Invalid choice, try again")
             
 main() 
