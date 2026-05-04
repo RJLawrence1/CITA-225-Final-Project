@@ -12,11 +12,22 @@ class Book():
 
 class Bookstore():
     def __init__(self):
+        #Dictionary to store ISBN as keey
         self.inventory = {}
+
+        #List to track sales
         self.sales = []
+
+        #Sets of unique authors
         self.authors = set()
+
+        #Dictionary of queues  
         self.waitlist = {}
+
+        #Stack of shipment bxes
         self.shipment = Stack()
+
+        # Linked List of waitlist
         self.waitlist_log = LinkedList()
 
     def add_book(self, isbn, title, author, price, quantity):
@@ -28,8 +39,12 @@ class Bookstore():
             #Decide to override or not
             if decision == "Y":
                 old_author = self.inventory[isbn].author
+
+                #Remove old author from unique authors
                 self.authors.discard(old_author)
                 self.inventory[isbn] = Book(isbn, title, author, price, quantity)
+
+                #Add new author if logical
                 if author not in self.authors:
                     self.authors.add(author)
                     print("Unique author added along with book.")
@@ -67,7 +82,7 @@ class Bookstore():
     def display_inventory(self):
         # Displays all books currently in the inventory dictionary.
         if len(self.inventory) == 0:
-            print("No books in inventory yet!")  # must be indented here
+            print("No books in inventory yet!"
         else:
             for isbn, book in self.inventory.items():
                 print(f"ISBN: {isbn} | Title: {book.title} | Author: {book.author} | Price: {book.price} | Quantity: {book.quantity}")
